@@ -34,12 +34,42 @@ jobs:
         working-directory: ./frontend
         run: npm ci
 
-      - name: Build
+      - name: Build (SSR mode - skip for now)
         working-directory: ./frontend
         run: |
-          # 使用静态导出配置
-          echo 'module.exports = { output: "export", images: { unoptimized: true } }' > next.config.js
-          npm run build
+          # GitHub Pages 只支持静态站点，我们需要静态导出
+          # 暂时创建简单静态页面
+          mkdir -p out
+          cat > out/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>🦐 苹果虾资讯 - 即将上线</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
+              h1 { color: #0066cc; }
+              .status { background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0; }
+              code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+            </style>
+          </head>
+          <body>
+            <h1>🦐 苹果虾资讯</h1>
+            <p class="status">
+              <strong>网站正在部署中...</strong><br><br>
+              由于 Next.js SSR 模式需要 Node.js 服务器，GitHub Pages（静态托管）暂时无法运行完整前端。<br><br>
+              <strong>解决方案：</strong><br>
+              1. 使用 Vercel 部署（推荐）：自动支持 SSR<br>
+              2. 或部署后端到云服务，前端改用纯静态方案<br><br>
+              后端 API 已就绪：<code>https://github.com/JunChen19/apple-shrimp-news</code>
+            </p>
+            <p>
+              <a href="https://github.com/JunChen19/apple-shrimp-news">查看 GitHub 仓库 →</a>
+            </p>
+          </body>
+          </html>
+          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
