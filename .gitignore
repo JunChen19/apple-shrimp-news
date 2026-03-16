@@ -48,3 +48,6 @@ docker-compose.override.yml
 .pytest_cache/
 .coverage
 htmlcov/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
